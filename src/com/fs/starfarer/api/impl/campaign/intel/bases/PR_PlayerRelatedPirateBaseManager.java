@@ -23,7 +23,7 @@ import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
 import org.apache.log4j.Logger;
 
-public class PR_PlayerRelatedPirateBaseManager implements EveryFrameScript {
+public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseManager {
 
     public static final String KEY = "$core_PR_pirateBaseManager";
 
@@ -180,17 +180,17 @@ public class PR_PlayerRelatedPirateBaseManager implements EveryFrameScript {
         bases.add(intel);
     }
 
-    public String pickPirateFaction() {
-        WeightedRandomPicker<String> picker = new WeightedRandomPicker<String>(random);
-        for (FactionAPI faction : Global.getSector().getAllFactions()) {
-            if (!faction.isHostileTo(Factions.PLAYER)) continue;
-
-            if (faction.getCustomBoolean(Factions.CUSTOM_MAKES_PIRATE_BASES)) {
-                picker.add(faction.getId(), 1f);
-            }
-        }
-        return picker.pick();
-    }
+//    public String pickPirateFaction() {
+//        WeightedRandomPicker<String> picker = new WeightedRandomPicker<String>(random);
+//        for (FactionAPI faction : Global.getSector().getAllFactions()) {
+//            if (!faction.isHostileTo(Factions.PLAYER)) continue;
+//
+//            if (faction.getCustomBoolean(Factions.CUSTOM_MAKES_PIRATE_BASES)) {
+//                picker.add(faction.getId(), 1f);
+//            }
+//        }
+//        return picker.pick();
+//    }
 
     protected void sendFirstRaid(List<MarketAPI> markets) {
         log.info("PIRATES SENDING FIRST RAID");
@@ -223,29 +223,27 @@ public class PR_PlayerRelatedPirateBaseManager implements EveryFrameScript {
         }
     }
 
-
-
-    protected PirateBaseTier pickTier(StarSystemAPI system) {
-        log.info("PIRATES PICKING TIER");
-        float max = 0f;
-        for (MarketAPI m : Global.getSector().getEconomy().getMarkets(system)) {
-            if (m.getFaction().isPlayerFaction()) {
-                max = Math.max(m.getSize(), max);
-            }
-        }
-        if (max >= 7) {
-            return PirateBaseTier.TIER_5_3MODULE;
-        } else if (max >= 6) {
-            return PirateBaseTier.TIER_4_3MODULE;
-        } else if (max >= 5) {
-            return PirateBaseTier.TIER_3_2MODULE;
-        } else if (max >= 4) {
-            return PirateBaseTier.TIER_2_1MODULE;
-        } else {
-            return PirateBaseTier.TIER_1_1MODULE;
-        }
-
-    }
+//    protected PirateBaseTier pickTier(StarSystemAPI system) {
+//        log.info("PIRATES PICKING TIER");
+//        float max = 0f;
+//        for (MarketAPI m : Global.getSector().getEconomy().getMarkets(system)) {
+//            if (m.getFaction().isPlayerFaction()) {
+//                max = Math.max(m.getSize(), max);
+//            }
+//        }
+//        if (max >= 7) {
+//            return PirateBaseTier.TIER_5_3MODULE;
+//        } else if (max >= 6) {
+//            return PirateBaseTier.TIER_4_3MODULE;
+//        } else if (max >= 5) {
+//            return PirateBaseTier.TIER_3_2MODULE;
+//        } else if (max >= 4) {
+//            return PirateBaseTier.TIER_2_1MODULE;
+//        } else {
+//            return PirateBaseTier.TIER_1_1MODULE;
+//        }
+//
+//    }
 
     protected StarSystemAPI pickSystemForPirateBase(StarSystemAPI initialTarget) {
         log.info("PIRATES PICKING BASE");
@@ -302,15 +300,4 @@ public class PR_PlayerRelatedPirateBaseManager implements EveryFrameScript {
 
         return picker.pick();
     }
-
-
-    public boolean isDone() {
-        return false;
-    }
-
-
-    public boolean runWhilePaused() {
-        return false;
-    }
-
 }

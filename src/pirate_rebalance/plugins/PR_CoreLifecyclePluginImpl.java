@@ -2246,10 +2246,6 @@ public class PR_CoreLifecyclePluginImpl extends BaseModPlugin {
 //		}
 //	}
 
-
-
-
-
     @Override
     public PluginPick<ShipAIPlugin> pickShipAI(FleetMemberAPI member, ShipAPI ship) {
         if (ship.isFighter()) return null;

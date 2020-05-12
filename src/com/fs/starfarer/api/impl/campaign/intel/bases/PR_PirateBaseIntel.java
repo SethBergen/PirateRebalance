@@ -69,37 +69,43 @@ import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
 
-public class PR_PirateBaseIntel extends PirateBaseIntel implements EveryFrameScript, FleetEventListener,
-        EconomyUpdateListener, RaidDelegate {
+public class PR_PirateBaseIntel extends PirateBaseIntel {
 
+//    public static enum PirateBaseTier {
+//        TIER_1_1MODULE,
+//        TIER_2_1MODULE,
+//        TIER_3_2MODULE,
+//        TIER_4_3MODULE,
+//        TIER_5_3MODULE,
+//    }
 
-    public static Object BOUNTY_EXPIRED_PARAM = new Object();
-    public static Object DISCOVERED_PARAM = new Object();
-
-    public static class BaseBountyData {
-        public float bountyElapsedDays = 0f;
-        public float bountyDuration = 0;
-        public float baseBounty = 0;
-        public float repChange = 0;
-        public FactionAPI bountyFaction = null;
-    }
+//    public static Object BOUNTY_EXPIRED_PARAM = new Object();
+//    public static Object DISCOVERED_PARAM = new Object();
+//
+//    public static class BaseBountyData {
+//        public float bountyElapsedDays = 0f;
+//        public float bountyDuration = 0;
+//        public float baseBounty = 0;
+//        public float repChange = 0;
+//        public FactionAPI bountyFaction = null;
+//    }
 
     public static Logger log = Global.getLogger(PR_PirateBaseIntel.class);
 
-    protected StarSystemAPI system;
-    protected MarketAPI market;
-    protected SectorEntityToken entity;
-
-    protected float elapsedDays = 0f;
-    protected float duration = 45f;
-
-    protected BaseBountyData bountyData = null;
-
-    protected PirateBaseTier tier;
-    protected PirateBaseTier matchedStationToTier = null;
-
-    protected IntervalUtil monthlyInterval = new IntervalUtil(20f, 40f);
-    protected int raidTimeoutMonths = 0;
+//    protected StarSystemAPI system;
+//    protected MarketAPI market;
+//    protected SectorEntityToken entity;
+//
+//    protected float elapsedDays = 0f;
+//    protected float duration = 45f;
+//
+//    protected BaseBountyData bountyData = null;
+//
+//    protected PirateBaseTier tier;
+//    protected PirateBaseTier matchedStationToTier = null;
+//
+//    protected IntervalUtil monthlyInterval = new IntervalUtil(20f, 40f);
+//    protected int raidTimeoutMonths = 0;
 
     public PR_PirateBaseIntel(StarSystemAPI system, String factionId, PirateBaseTier tier) {
         super(system, factionId, tier);
@@ -1153,6 +1159,10 @@ public class PR_PirateBaseIntel extends PirateBaseIntel implements EveryFrameScr
         }
         return 0f;
     }
+
+//    public PirateBaseTier getTier() {
+//        return tier;
+//    }
 
     public SectorEntityToken getEntity() {
         return entity;
