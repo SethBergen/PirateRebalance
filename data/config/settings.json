@@ -1,0 +1,7 @@
+{
+  "pirateBaseMinMonthsForNextTier":18,
+  "noPirateRaidDays":0,
+  "plugins":{
+    "coreLifecyclePlugin":"pirate_rebalance.plugins.PR_CoreLifecyclePluginImpl"
+  }
+}
