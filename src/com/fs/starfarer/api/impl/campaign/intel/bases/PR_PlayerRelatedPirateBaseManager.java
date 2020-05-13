@@ -193,34 +193,34 @@ public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseMa
 //    }
 
     protected void sendFirstRaid(List<MarketAPI> markets) {
-        log.info("PIRATES SENDING FIRST RAID");
-        if (markets.isEmpty()) return;
-
-        sentFirstRaid = true;
-
-        WeightedRandomPicker<MarketAPI> picker = new WeightedRandomPicker<MarketAPI>(random);
-        picker.addAll(markets);
-        MarketAPI target = picker.pick();
-
-        PR_PirateBaseIntel closest = null;
-        float minDist = Float.MAX_VALUE;
-        for (IntelInfoPlugin p : Global.getSector().getIntelManager().getIntel(PR_PirateBaseIntel.class)) {
-            PR_PirateBaseIntel intel = (PR_PirateBaseIntel) p;
-            if (intel.isEnding()) continue;
-
-            float dist = Misc.getDistance(intel.getMarket().getPrimaryEntity(), target.getPrimaryEntity());
-            if (dist < minDist) {
-                minDist = dist;
-                closest = intel;
-            }
-        }
-
-        if (closest != null && target != null) {
-            float raidFP = 120 + 30f * random.nextFloat();
-//			raidFP = 1000;
-//			raidFP = 500;
-            closest.startRaid(target.getStarSystem(), raidFP);
-        }
+        log.info("BLOCKING FIRST PIRATE RAID");
+//        if (markets.isEmpty()) return;
+//
+//        sentFirstRaid = true;
+//
+//        WeightedRandomPicker<MarketAPI> picker = new WeightedRandomPicker<MarketAPI>(random);
+//        picker.addAll(markets);
+//        MarketAPI target = picker.pick();
+//
+//        PR_PirateBaseIntel closest = null;
+//        float minDist = Float.MAX_VALUE;
+//        for (IntelInfoPlugin p : Global.getSector().getIntelManager().getIntel(PR_PirateBaseIntel.class)) {
+//            PR_PirateBaseIntel intel = (PR_PirateBaseIntel) p;
+//            if (intel.isEnding()) continue;
+//
+//            float dist = Misc.getDistance(intel.getMarket().getPrimaryEntity(), target.getPrimaryEntity());
+//            if (dist < minDist) {
+//                minDist = dist;
+//                closest = intel;
+//            }
+//        }
+//
+//        if (closest != null && target != null) {
+//            float raidFP = 120 + 30f * random.nextFloat();
+////			raidFP = 1000;
+////			raidFP = 500;
+//            closest.startRaid(target.getStarSystem(), raidFP);
+//        }
     }
 
 //    protected PirateBaseTier pickTier(StarSystemAPI system) {
@@ -255,7 +255,7 @@ public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseMa
             float days = Global.getSector().getClock().getElapsedDaysSince(system.getLastPlayerVisitTimestamp());
             if (days < 45f) continue;
 
-            if (system.getCenter().getMemoryWithoutUpdate().contains(PirateBaseManager.RECENTLY_USED_FOR_BASE)) continue;
+            if (system.getCenter().getMemoryWithoutUpdate().contains(PR_PirateBaseManager.RECENTLY_USED_FOR_BASE)) continue;
 
             float weight = 0f;
             if (system.hasTag(Tags.THEME_MISC_SKIP)) {

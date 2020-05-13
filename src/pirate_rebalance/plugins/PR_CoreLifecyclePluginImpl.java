@@ -149,26 +149,7 @@ import com.fs.starfarer.api.impl.campaign.events.nearby.DistressCallPirateAmbush
 import com.fs.starfarer.api.impl.campaign.events.nearby.DistressCallPirateAmbushTrapAssignmentAI;
 import com.fs.starfarer.api.impl.campaign.events.nearby.NearbyEventsEvent;
 import com.fs.starfarer.api.impl.campaign.events.nearby.NearbyEventsEvent.NESpawnData;
-import com.fs.starfarer.api.impl.campaign.fleets.BaseRouteFleetManager;
-import com.fs.starfarer.api.impl.campaign.fleets.CustomFleets;
-import com.fs.starfarer.api.impl.campaign.fleets.DefaultFleetInflater;
-import com.fs.starfarer.api.impl.campaign.fleets.DefaultFleetInflaterParams;
-import com.fs.starfarer.api.impl.campaign.fleets.DisposableAggroAssignmentAI;
-import com.fs.starfarer.api.impl.campaign.fleets.DisposableFleetManager;
-import com.fs.starfarer.api.impl.campaign.fleets.DisposableLuddicPathFleetManager;
-import com.fs.starfarer.api.impl.campaign.fleets.DisposablePirateFleetManager;
-import com.fs.starfarer.api.impl.campaign.fleets.EconomyFleetAssignmentAI;
-import com.fs.starfarer.api.impl.campaign.fleets.EconomyFleetRouteManager;
-import com.fs.starfarer.api.impl.campaign.fleets.FleetParams;
-import com.fs.starfarer.api.impl.campaign.fleets.MercAssignmentAIV2;
-import com.fs.starfarer.api.impl.campaign.fleets.MercFleetManagerV2;
-import com.fs.starfarer.api.impl.campaign.fleets.PatrolAssignmentAI;
-import com.fs.starfarer.api.impl.campaign.fleets.PatrolAssignmentAIV4;
-import com.fs.starfarer.api.impl.campaign.fleets.PatrolFleetManager;
-import com.fs.starfarer.api.impl.campaign.fleets.PatrolFleetManagerV2;
-import com.fs.starfarer.api.impl.campaign.fleets.RouteManager;
-import com.fs.starfarer.api.impl.campaign.fleets.SeededFleetManager;
-import com.fs.starfarer.api.impl.campaign.fleets.SourceBasedFleetManager;
+import com.fs.starfarer.api.impl.campaign.fleets.*;
 import com.fs.starfarer.api.impl.campaign.fleets.BaseLimitedFleetManager.ManagedFleetData;
 import com.fs.starfarer.api.impl.campaign.fleets.EconomyFleetAssignmentAI.CargoQuantityData;
 import com.fs.starfarer.api.impl.campaign.fleets.EconomyFleetAssignmentAI.EconomyRouteData;
@@ -417,8 +398,8 @@ public class PR_CoreLifecyclePluginImpl extends BaseModPlugin {
             sector.addScript(new SystemBountyManager());
         }
 
-        if (!sector.hasScript(PirateBaseManager.class)) {
-            sector.addScript(new PirateBaseManager());
+        if (!sector.hasScript(PR_PirateBaseManager.class)) {
+            sector.addScript(new PR_PirateBaseManager());
         }
         if (!sector.hasScript(PR_PlayerRelatedPirateBaseManager.class)) {
             sector.addScript(new PR_PlayerRelatedPirateBaseManager());
@@ -2062,17 +2043,17 @@ public class PR_CoreLifecyclePluginImpl extends BaseModPlugin {
         x.alias("DisposableLuddicPathFleetManager", DisposableLuddicPathFleetManager.class);
 
 
-        x.alias("PirateBaseIntel", PirateBaseIntel.class);
-        x.aliasAttribute(PirateBaseIntel.class, "system", "s");
-        x.aliasAttribute(PirateBaseIntel.class, "market", "m");
-        x.aliasAttribute(PirateBaseIntel.class, "entity", "e");
-        x.aliasAttribute(PirateBaseIntel.class, "elapsedDays", "eD");
-        x.aliasAttribute(PirateBaseIntel.class, "duration", "d");
-        x.aliasAttribute(PirateBaseIntel.class, "bountyData", "bD");
-        x.aliasAttribute(PirateBaseIntel.class, "tier", "t");
-        x.aliasAttribute(PirateBaseIntel.class, "matchedStationToTier", "mSTT");
-        x.aliasAttribute(PirateBaseIntel.class, "monthlyInterval", "mI");
-        x.aliasAttribute(PirateBaseIntel.class, "raidTimeoutMonths", "rTM");
+        x.alias("PirateBaseIntel", PR_PirateBaseIntel.class);
+        x.aliasAttribute(PR_PirateBaseIntel.class, "system", "s");
+        x.aliasAttribute(PR_PirateBaseIntel.class, "market", "m");
+        x.aliasAttribute(PR_PirateBaseIntel.class, "entity", "e");
+        x.aliasAttribute(PR_PirateBaseIntel.class, "elapsedDays", "eD");
+        x.aliasAttribute(PR_PirateBaseIntel.class, "duration", "d");
+        x.aliasAttribute(PR_PirateBaseIntel.class, "bountyData", "bD");
+        x.aliasAttribute(PR_PirateBaseIntel.class, "tier", "t");
+        x.aliasAttribute(PR_PirateBaseIntel.class, "matchedStationToTier", "mSTT");
+        x.aliasAttribute(PR_PirateBaseIntel.class, "monthlyInterval", "mI");
+        x.aliasAttribute(PR_PirateBaseIntel.class, "raidTimeoutMonths", "rTM");
 
         x.alias("BaseBountyData", BaseBountyData.class);
         x.aliasAttribute(BaseBountyData.class, "bountyElapsedDays", "bED");
@@ -2165,7 +2146,7 @@ public class PR_CoreLifecyclePluginImpl extends BaseModPlugin {
         x.alias("WarSimScript", WarSimScript.class);
         x.alias("PersonBountyManager", PersonBountyManager.class);
         x.alias("SystemBountyManager", SystemBountyManager.class);
-        x.alias("PirateBaseManager", PirateBaseManager.class);
+        x.alias("PirateBaseManager", PR_PirateBaseManager.class);
         x.alias("PlayerRelatedPirateBaseManager", PR_PlayerRelatedPirateBaseManager.class);
         x.alias("LuddicPathBaseManager", LuddicPathBaseManager.class);
         x.alias("HegemonyInspectionManager", HegemonyInspectionManager.class);

@@ -15,5 +15,6 @@ public class PirateRebalancePlugin extends BaseModPlugin {
     @Override
     public void onGameLoad(boolean newGame){
         log.info("PIRATE REBALANCE LOADED");
+        // log.info(Global.getSettings().getInt("noPirateRaidDays"));
     }
 }

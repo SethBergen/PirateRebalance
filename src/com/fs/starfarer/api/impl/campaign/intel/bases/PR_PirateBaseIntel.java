@@ -109,6 +109,7 @@ public class PR_PirateBaseIntel extends PirateBaseIntel {
 
     public PR_PirateBaseIntel(StarSystemAPI system, String factionId, PirateBaseTier tier) {
         super(system, factionId, tier);
+        log.info("ABOVE RAN VIA PR_ SUPERCLASS");
     }
 
     @Override
@@ -387,7 +388,7 @@ public class PR_PirateBaseIntel extends PirateBaseIntel {
                 setBounty();
             }
             //if (target != null && (float) Math.random() < 0.2f && raidTimeoutMonths <= 0) {
-            boolean allowRandomRaids = PirateBaseManager.getInstance().getDaysSinceStart() > Global.getSettings().getFloat("noPirateRaidDays");
+            boolean allowRandomRaids = PR_PirateBaseManager.getInstance().getDaysSinceStart() > Global.getSettings().getFloat("noPirateRaidDays");
 
             if (target != null &&
                     (((float) Math.random() < 0.2f && allowRandomRaids) ||
@@ -551,8 +552,8 @@ public class PR_PirateBaseIntel extends PirateBaseIntel {
                 sendUpdateIfPlayerHasIntel(result, false);
             }
 
-            PirateBaseManager.getInstance().incrDestroyed();
-            PirateBaseManager.markRecentlyUsedForBase(system);
+            PR_PirateBaseManager.getInstance().incrDestroyed();
+            PR_PirateBaseManager.markRecentlyUsedForBase(system);
         }
     }
 
