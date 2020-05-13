@@ -1,11 +1,11 @@
 {
-  "id": "pirate_rebalance",
-  "name": "Pirate Rebalance",
+  "id": "pirate_rebalance_dev",
+  "name": "Pirate Rebalance [dev]",
   "author": "Claimer9",
   "version": "0.0.1",
   "description": "Makes pirates a bit less cracked out. See README for a full list of changes. change",
   "gameVersion": "0.9.1a",
-  "totalConversion": false,
+  "totalConversion": true,
   "jars": ["pirate_rebalance.jar"],
   "modPlugin": "pirate_rebalance.plugins.PirateRebalancePlugin"
 }
