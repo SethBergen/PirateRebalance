@@ -3,34 +3,16 @@ package com.fs.starfarer.api.impl.campaign.intel.bases;
 import java.util.Random;
 
 import com.fs.starfarer.api.EveryFrameScript;
-import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
-import com.fs.starfarer.api.campaign.econ.MarketAPI;
-import com.fs.starfarer.api.impl.campaign.ids.Factions;
-import com.fs.starfarer.api.impl.campaign.ids.Tags;
-import com.fs.starfarer.api.impl.campaign.intel.BaseEventManager;
 import com.fs.starfarer.api.impl.campaign.intel.bases.PirateBaseIntel.PirateBaseTier;
-import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
 import pirate_rebalance.utilities.PirateRebalanceSectorUtils;
 
 public class PR_PirateBaseManager extends PirateBaseManager {
 
-//    public static final String KEY = "$core_pirateBaseManager";
-//
-//    public static final float CHECK_DAYS = 10f;
-//    public static final float CHECK_PROB = 0.5f;
-//
-//    protected long start = 0;
-//    protected float extraDays = 0;
-//
-//    protected int numDestroyed = 0;
-
     public PR_PirateBaseManager() {
         super();
     }
-
 
     protected Random random = new Random();
     @Override

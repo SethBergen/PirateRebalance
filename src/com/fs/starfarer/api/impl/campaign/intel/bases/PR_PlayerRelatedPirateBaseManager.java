@@ -1,26 +1,17 @@
 package com.fs.starfarer.api.impl.campaign.intel.bases;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
-import com.fs.starfarer.api.EveryFrameScript;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
-import com.fs.starfarer.api.campaign.comm.IntelInfoPlugin;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
-import com.fs.starfarer.api.impl.campaign.DebugFlags;
 import com.fs.starfarer.api.impl.campaign.ids.Conditions;
-import com.fs.starfarer.api.impl.campaign.ids.Factions;
-import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import com.fs.starfarer.api.impl.campaign.intel.bases.PirateBaseIntel.PirateBaseTier;
-import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
-import com.fs.starfarer.api.util.WeightedRandomPicker;
 import org.apache.log4j.Logger;
 
 public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseManager {
@@ -42,71 +33,6 @@ public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseMa
         super();
         Global.getSector().getMemoryWithoutUpdate().set(KEY, this);
         start = Global.getSector().getClock().getTimestamp();
-    }
-
-
-    public void advance(float amount) {
-
-        for (PR_PirateBaseIntel intel : bases) {
-            intel.advance(amount);
-        }
-
-        float days = Misc.getDays(amount);
-
-        if (DebugFlags.RAID_DEBUG) {
-            days *= 100f;
-        }
-
-        monthlyInterval.advance(days);
-
-        if (monthlyInterval.intervalElapsed()) {
-            removeDestroyedBases();
-
-            FactionAPI player = Global.getSector().getPlayerFaction();
-            List<MarketAPI> markets = Misc.getFactionMarkets(player);
-
-            if (markets.isEmpty()) {
-                return;
-            }
-
-            monthsPlayerColoniesExist++;
-
-            if (!sentFirstRaid) {
-                if (monthsPlayerColoniesExist >= 4 && !markets.isEmpty()) {
-                    sendFirstRaid(markets);
-                    baseCreationTimeout = 3 + random.nextInt(4);
-                }
-                return;
-            }
-
-            if (baseCreationTimeout > 0) {
-                baseCreationTimeout--;
-            } else {
-                if (random.nextFloat() > 0.5f) {
-                    addBasesAsNeeded();
-                }
-            }
-        }
-    }
-
-    protected void removeDestroyedBases() {
-        Iterator<PR_PirateBaseIntel> iter = bases.iterator();
-        while (iter.hasNext()) {
-            PR_PirateBaseIntel intel = iter.next();
-            if (intel.isEnded() && !intel.getMarket().isInEconomy()) {
-                iter.remove();
-
-                int baseTimeout = 3;
-                switch (intel.getTier()) {
-                    case TIER_1_1MODULE: baseTimeout = 3; break;
-                    case TIER_2_1MODULE: baseTimeout = 3; break;
-                    case TIER_3_2MODULE: baseTimeout = 4; break;
-                    case TIER_4_3MODULE: baseTimeout = 5; break;
-                    case TIER_5_3MODULE: baseTimeout = 6; break;
-                }
-                baseCreationTimeout += baseTimeout + random.nextInt(baseTimeout + 1);
-            }
-        }
     }
 
     protected void addBasesAsNeeded() {
@@ -173,62 +99,5 @@ public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseMa
 
     protected void sendFirstRaid(List<MarketAPI> markets) {
         log.info("[Pirate Rebalance] Blocking initial pirate raid");
-    }
-
-
-    protected StarSystemAPI pickSystemForPirateBase(StarSystemAPI initialTarget) {
-        log.info("[Pirate Rebalance] Picking system for player-related pirate base");
-        WeightedRandomPicker<StarSystemAPI> veryFar = new WeightedRandomPicker<StarSystemAPI>(random);
-        WeightedRandomPicker<StarSystemAPI> far = new WeightedRandomPicker<StarSystemAPI>(random);
-        WeightedRandomPicker<StarSystemAPI> picker = new WeightedRandomPicker<StarSystemAPI>(random);
-
-        for (StarSystemAPI system : Global.getSector().getStarSystems()) {
-            float days = Global.getSector().getClock().getElapsedDaysSince(system.getLastPlayerVisitTimestamp());
-            if (days < 45f) continue;
-
-            if (system.getCenter().getMemoryWithoutUpdate().contains(PR_PirateBaseManager.RECENTLY_USED_FOR_BASE)) continue;
-
-            float weight = 0f;
-            if (system.hasTag(Tags.THEME_MISC_SKIP)) {
-                weight = 1f;
-            } else if (system.hasTag(Tags.THEME_MISC)) {
-                weight = 3f;
-            } else if (system.hasTag(Tags.THEME_REMNANT_NO_FLEETS)) {
-                weight = 3f;
-            } else if (system.hasTag(Tags.THEME_RUINS)) {
-                weight = 5f;
-            } else if (system.hasTag(Tags.THEME_CORE_UNPOPULATED)) {
-                weight = 1f;
-            }
-            if (weight <= 0f) continue;
-
-            float usefulStuff = system.getCustomEntitiesWithTag(Tags.OBJECTIVE).size() +
-                    system.getCustomEntitiesWithTag(Tags.STABLE_LOCATION).size();
-            if (usefulStuff <= 0) continue;
-
-            if (Misc.getMarketsInLocation(system).size() > 0) continue;
-
-            float dist = Misc.getDistance(initialTarget.getLocation(), system.getLocation());
-
-            float distMult = 100000f / dist;
-            distMult *= distMult;
-
-            if (dist > 30000f) {
-                veryFar.add(system, weight * usefulStuff * distMult);
-            } else if (dist > 10000f) {
-                far.add(system, weight * usefulStuff * distMult);
-            } else {
-                picker.add(system, weight * usefulStuff * distMult);
-            }
-        }
-
-        if (picker.isEmpty()) {
-            picker.addAll(far);
-        }
-        if (picker.isEmpty()) {
-            picker.addAll(veryFar);
-        }
-
-        return picker.pick();
     }
 }
