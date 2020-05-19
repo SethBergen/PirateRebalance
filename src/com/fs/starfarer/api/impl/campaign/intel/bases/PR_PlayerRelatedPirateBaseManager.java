@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 
 public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseManager {
 
+    // Don't touch this. You'll corrupt everybody's saves.
     public static final String KEY = "$core_PR_pirateBaseManager";
 
 
@@ -32,14 +33,6 @@ public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseMa
         Object test = Global.getSector().getMemoryWithoutUpdate().get(KEY);
         return (PR_PlayerRelatedPirateBaseManager) test;
     }
-
-
-    protected long start = 0;
-    protected boolean sentFirstRaid = false;
-    protected IntervalUtil monthlyInterval = new IntervalUtil(20f, 40f);
-    protected int monthsPlayerColoniesExist = 0;
-    protected int baseCreationTimeout = 0;
-    protected Random random = new Random();
 
     public static Logger log = Global.getLogger(PR_PirateBaseIntel.class);
 
@@ -139,7 +132,6 @@ public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseMa
             return;
         }
 
-
         StarSystemAPI initialTarget = null;
         float bestWeight = 0f;
         OUTER: for (StarSystemAPI curr : systems) {
@@ -166,87 +158,26 @@ public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseMa
         String factionId = pickPirateFaction();
         if (factionId == null) return;
 
-        //factionId = Factions.HEGEMONY;
-
         PR_PirateBaseIntel intel = new PR_PirateBaseIntel(target, factionId, tier);
         if (intel.isDone()) {
             intel = null;
             return;
         }
 
-        intel.setTargetPlayerColonies(true);
-        intel.setForceTarget(initialTarget);
+        // Allow player related pirate bases to attack AI
+//        intel.setTargetPlayerColonies(true);
+//        intel.setForceTarget(initialTarget);
         intel.updateTarget();
         bases.add(intel);
     }
 
-//    public String pickPirateFaction() {
-//        WeightedRandomPicker<String> picker = new WeightedRandomPicker<String>(random);
-//        for (FactionAPI faction : Global.getSector().getAllFactions()) {
-//            if (!faction.isHostileTo(Factions.PLAYER)) continue;
-//
-//            if (faction.getCustomBoolean(Factions.CUSTOM_MAKES_PIRATE_BASES)) {
-//                picker.add(faction.getId(), 1f);
-//            }
-//        }
-//        return picker.pick();
-//    }
-
     protected void sendFirstRaid(List<MarketAPI> markets) {
-        log.info("BLOCKING FIRST PIRATE RAID");
-//        if (markets.isEmpty()) return;
-//
-//        sentFirstRaid = true;
-//
-//        WeightedRandomPicker<MarketAPI> picker = new WeightedRandomPicker<MarketAPI>(random);
-//        picker.addAll(markets);
-//        MarketAPI target = picker.pick();
-//
-//        PR_PirateBaseIntel closest = null;
-//        float minDist = Float.MAX_VALUE;
-//        for (IntelInfoPlugin p : Global.getSector().getIntelManager().getIntel(PR_PirateBaseIntel.class)) {
-//            PR_PirateBaseIntel intel = (PR_PirateBaseIntel) p;
-//            if (intel.isEnding()) continue;
-//
-//            float dist = Misc.getDistance(intel.getMarket().getPrimaryEntity(), target.getPrimaryEntity());
-//            if (dist < minDist) {
-//                minDist = dist;
-//                closest = intel;
-//            }
-//        }
-//
-//        if (closest != null && target != null) {
-//            float raidFP = 120 + 30f * random.nextFloat();
-////			raidFP = 1000;
-////			raidFP = 500;
-//            closest.startRaid(target.getStarSystem(), raidFP);
-//        }
+        log.info("[Pirate Rebalance] Blocking initial pirate raid");
     }
 
-//    protected PirateBaseTier pickTier(StarSystemAPI system) {
-//        log.info("PIRATES PICKING TIER");
-//        float max = 0f;
-//        for (MarketAPI m : Global.getSector().getEconomy().getMarkets(system)) {
-//            if (m.getFaction().isPlayerFaction()) {
-//                max = Math.max(m.getSize(), max);
-//            }
-//        }
-//        if (max >= 7) {
-//            return PirateBaseTier.TIER_5_3MODULE;
-//        } else if (max >= 6) {
-//            return PirateBaseTier.TIER_4_3MODULE;
-//        } else if (max >= 5) {
-//            return PirateBaseTier.TIER_3_2MODULE;
-//        } else if (max >= 4) {
-//            return PirateBaseTier.TIER_2_1MODULE;
-//        } else {
-//            return PirateBaseTier.TIER_1_1MODULE;
-//        }
-//
-//    }
 
     protected StarSystemAPI pickSystemForPirateBase(StarSystemAPI initialTarget) {
-        log.info("PIRATES PICKING BASE");
+        log.info("[Pirate Rebalance] Picking system for player-related pirate base");
         WeightedRandomPicker<StarSystemAPI> veryFar = new WeightedRandomPicker<StarSystemAPI>(random);
         WeightedRandomPicker<StarSystemAPI> far = new WeightedRandomPicker<StarSystemAPI>(random);
         WeightedRandomPicker<StarSystemAPI> picker = new WeightedRandomPicker<StarSystemAPI>(random);

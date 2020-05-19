@@ -68,6 +68,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
+import pirate_rebalance.utilities.PirateRebalanceSectorUtils;
 
 public class PR_PirateBaseIntel extends PirateBaseIntel {
 
@@ -105,7 +106,7 @@ public class PR_PirateBaseIntel extends PirateBaseIntel {
 //    protected PirateBaseTier matchedStationToTier = null;
 //
 //    protected IntervalUtil monthlyInterval = new IntervalUtil(20f, 40f);
-//    protected int raidTimeoutMonths = 0;
+    protected int raidTimeoutMonths = 12;
 
     public PR_PirateBaseIntel(StarSystemAPI system, String factionId, PirateBaseTier tier) {
         super(system, factionId, tier);
@@ -423,11 +424,21 @@ public class PR_PirateBaseIntel extends PirateBaseIntel {
         updateStationIfNeeded();
     }
 
+
+
     protected void checkForTierChange() {
         if (bountyData != null) return;
         if (entity.isInCurrentLocation()) return;
 
-        float minMonths = Global.getSettings().getFloat("pirateBaseMinMonthsForNextTier");
+        // If requirements for next tier are not fulfilled, return
+        int numDestroyed = PR_PirateBaseManager.getInstance().getNumDestroyed();
+        float maxPlayerMarketSize = PirateRebalanceSectorUtils.getMaxPlayerMarketSize();
+        if (!(tier == PirateBaseTier.TIER_4_3MODULE && (maxPlayerMarketSize >= 6 || numDestroyed >= 9) ||
+                tier == PirateBaseTier.TIER_3_2MODULE && (maxPlayerMarketSize >= 5 || numDestroyed >= 6) ||
+                tier == PirateBaseTier.TIER_2_1MODULE && (maxPlayerMarketSize >= 4 || numDestroyed >= 3) ||
+                tier == PirateBaseTier.TIER_1_1MODULE)) return;
+
+            float minMonths = Global.getSettings().getFloat("pirateBaseMinMonthsForNextTier");
         if (monthsAtCurrentTier > minMonths) {
             float prob = (monthsAtCurrentTier - minMonths) * 0.1f;
             if ((float) Math.random() < prob) {
@@ -1091,19 +1102,18 @@ public class PR_PirateBaseIntel extends PirateBaseIntel {
                 }
                 if (curr.hasCondition(Conditions.PIRATE_ACTIVITY)) continue;
 
-//				if (curr.getId().equals("jangala")) {
-//					score += 10000000f;
-//				}
-
                 float w = curr.getSize();
 
+                float preferredRange = 10000f;
+
                 float dist = Misc.getDistance(curr.getPrimaryEntity(), market.getPrimaryEntity());
-                float mult = 1f - Math.max(0f, dist - 20000f) / 20000f;
-                if (mult < 0.1f) mult = 0.1f;
+                float mult = 1f - Math.max(0f, dist - preferredRange) / preferredRange;
+                if (mult <= 0f) continue; // Beyond operational range of pirate base
+                // if (mult < 0.1f) mult = 0.1f;
                 if (mult > 1) mult = 1;
 
                 if (!targetPlayerColonies && curr.getFaction().isPlayerFaction()) {
-                    if (dist > 20000) continue;
+                    if (dist > preferredRange) continue;
                 }
 
                 score += w * mult;
