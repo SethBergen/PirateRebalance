@@ -16,23 +16,12 @@ import org.apache.log4j.Logger;
 
 public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseManager {
 
-    // Don't touch this. You'll corrupt everybody's saves.
-    public static final String KEY = "$core_PR_pirateBaseManager";
-
-
-    public static PR_PlayerRelatedPirateBaseManager getInstance() {
-        Object test = Global.getSector().getMemoryWithoutUpdate().get(KEY);
-        return (PR_PlayerRelatedPirateBaseManager) test;
-    }
-
     public static Logger log = Global.getLogger(PR_PirateBaseIntel.class);
 
     protected List<PR_PirateBaseIntel> bases = new ArrayList<PR_PirateBaseIntel>();
 
     public PR_PlayerRelatedPirateBaseManager() {
         super();
-        Global.getSector().getMemoryWithoutUpdate().set(KEY, this);
-        start = Global.getSector().getClock().getTimestamp();
     }
 
     protected void addBasesAsNeeded() {
@@ -91,8 +80,8 @@ public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseMa
         }
 
         // Allow player related pirate bases to attack AI
-//        intel.setTargetPlayerColonies(true);
-//        intel.setForceTarget(initialTarget);
+        // intel.setTargetPlayerColonies(true);
+        // intel.setForceTarget(initialTarget);
         intel.updateTarget();
         bases.add(intel);
     }
