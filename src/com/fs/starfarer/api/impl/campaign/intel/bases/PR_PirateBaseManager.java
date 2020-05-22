@@ -15,6 +15,7 @@ public class PR_PirateBaseManager extends PirateBaseManager {
     }
 
     protected Random random = new Random();
+
     @Override
     protected EveryFrameScript createEvent() {
         if (random.nextFloat() < CHECK_PROB) return null;
@@ -34,6 +35,7 @@ public class PR_PirateBaseManager extends PirateBaseManager {
         return intel;
     }
 
+    @Override
     protected PirateBaseTier pickTier() {
         float maxPlayerMarketSize = PirateRebalanceSectorUtils.getMaxPlayerMarketSize();
 
