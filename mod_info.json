@@ -3,7 +3,7 @@
   "name": "Pirate Rebalance [dev]",
   "author": "Claimer9",
   "version": "0.0.1",
-  "description": "Makes pirates a bit less cracked out. See README for a full list of changes. change",
+  "description": "Makes pirates a bit less cracked out. See README for a full list of changes.",
   "gameVersion": "0.9.1a",
   "totalConversion": true,
   "jars": ["pirate_rebalance.jar"],
