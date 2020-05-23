@@ -10,6 +10,7 @@ public class PirateRebalanceConfig {
     public static boolean disableScriptedFirstRaid = true;
     public static boolean disableForceTargettingPlayer = true;
     public static boolean restrictPirateRange = true;
+    public static boolean adaptivePirateBaseTierScaling = true;
 
     public static int newPirateBaseInactivityMonths = 12;
     public static double preferredPirateRange = 10000f;
@@ -25,6 +26,7 @@ public class PirateRebalanceConfig {
             disableScriptedFirstRaid = config.optBoolean("disableScriptedFirstRaid", disableScriptedFirstRaid);
             disableForceTargettingPlayer = config.optBoolean("disableForceTargettingPlayer", disableForceTargettingPlayer);
             restrictPirateRange = config.optBoolean("restrictPirateRange", restrictPirateRange);
+            adaptivePirateBaseTierScaling = config.optBoolean("adaptivePirateBaseTierScaling", adaptivePirateBaseTierScaling);
 
             newPirateBaseInactivityMonths = config.optInt("newPirateBaseInactivityMonths", newPirateBaseInactivityMonths);
 

@@ -31,12 +31,13 @@ public class PR_PirateBaseIntel extends PirateBaseIntel {
         // If requirements for next tier are not fulfilled, return
         int numDestroyed = PR_PirateBaseManager.getInstance().getNumDestroyed();
         float maxPlayerMarketSize = PirateRebalanceSectorUtils.getMaxPlayerMarketSize();
-        if (!(tier == PirateBaseTier.TIER_4_3MODULE && (maxPlayerMarketSize >= 6 || numDestroyed >= 9) ||
+        if (PirateRebalanceConfig.adaptivePirateBaseTierScaling &&
+                !(tier == PirateBaseTier.TIER_4_3MODULE && (maxPlayerMarketSize >= 6 || numDestroyed >= 9) ||
                 tier == PirateBaseTier.TIER_3_2MODULE && (maxPlayerMarketSize >= 5 || numDestroyed >= 6) ||
                 tier == PirateBaseTier.TIER_2_1MODULE && (maxPlayerMarketSize >= 4 || numDestroyed >= 3) ||
                 tier == PirateBaseTier.TIER_1_1MODULE)) return;
 
-            float minMonths = Global.getSettings().getFloat("pirateBaseMinMonthsForNextTier");
+        float minMonths = Global.getSettings().getFloat("pirateBaseMinMonthsForNextTier");
         if (monthsAtCurrentTier > minMonths) {
             float prob = (monthsAtCurrentTier - minMonths) * 0.1f;
             if ((float) Math.random() < prob) {

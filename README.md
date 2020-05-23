@@ -47,11 +47,16 @@ _Default:_ `true`
 
 >In the vanilla game, new player-targetting pirate bases are scripted to launch a raid 4 months after their associated colony in established. This flag disables this initial raid.  
 
-#### "restrictPirateBaseLevelling"
+
+#### "adaptivePirateBaseTierScaling"
 _Found In:_ `/pr_config.json`  
 _Default:_ `true`  
 
->TODO Desc
+>In the vanilla game, the minimum level of new pirate bases in the sector increases with time and there is no restriction on how far bases can upgrade themselves (outside the existance of a highest possible tier). With this setting enabled, the starting level of bases as well as their max level is dependent on player performance. There are two triggers here:
+> 1. Should the player own a sufficiently high level colony, the level of new pirate bases and the max upgrade tier will increase. This is intended to prevent things getting out of hand if the player isnt keeping up with destroying pirate bases before they get too powerful.  
+> 2. As the player destroys pirate bases, their min and max tiers will gradually increase. This means that even if the player does not colonize, pirates will still present a martial challenge.  
+> 
+>The thresholds for each of these triggers are independent and the effects do not stack. Whichever the player is "further along" on will be the active determinant of pirate difficulty. 
 
 #### "preferredPirateRange"  
 _Found In:_ `/pr_config.json`  

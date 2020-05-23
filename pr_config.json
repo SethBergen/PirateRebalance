@@ -4,6 +4,5 @@
   "newPirateBaseInactivityMonths": 12,
   "preferredPirateRange": 10000,
   "restrictPirateRange": true,
-  "TEMP": "Configs below this are unimplemented",
-  "restrictPirateBaseLevelling": true
+  "adaptivePirateBaseTierScaling": true
 }
