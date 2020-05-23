@@ -6,6 +6,7 @@ import com.fs.starfarer.api.EveryFrameScript;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.impl.campaign.intel.bases.PirateBaseIntel.PirateBaseTier;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
+import pirate_rebalance.utilities.PirateRebalanceConfig;
 import pirate_rebalance.utilities.PirateRebalanceSectorUtils;
 
 public class PR_PirateBaseManager extends PirateBaseManager {
@@ -15,6 +16,7 @@ public class PR_PirateBaseManager extends PirateBaseManager {
     }
 
     protected Random random = new Random();
+
     @Override
     protected EveryFrameScript createEvent() {
         if (random.nextFloat() < CHECK_PROB) return null;
@@ -34,7 +36,12 @@ public class PR_PirateBaseManager extends PirateBaseManager {
         return intel;
     }
 
+    @Override
     protected PirateBaseTier pickTier() {
+        if (!PirateRebalanceConfig.adaptivePirateBaseTierScaling){
+            return super.pickTier();
+        }
+
         float maxPlayerMarketSize = PirateRebalanceSectorUtils.getMaxPlayerMarketSize();
 
         WeightedRandomPicker<PirateBaseTier> picker = new WeightedRandomPicker<PirateBaseTier>();

@@ -13,6 +13,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Conditions;
 import com.fs.starfarer.api.impl.campaign.intel.bases.PirateBaseIntel.PirateBaseTier;
 import com.fs.starfarer.api.util.Misc;
 import org.apache.log4j.Logger;
+import pirate_rebalance.utilities.PirateRebalanceConfig;
 
 public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseManager {
 
@@ -24,6 +25,7 @@ public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseMa
         super();
     }
 
+    @Override
     protected void addBasesAsNeeded() {
         FactionAPI player = Global.getSector().getPlayerFaction();
         List<MarketAPI> markets = Misc.getFactionMarkets(player);
@@ -79,14 +81,25 @@ public class PR_PlayerRelatedPirateBaseManager extends PlayerRelatedPirateBaseMa
             return;
         }
 
-        // Allow player related pirate bases to attack AI
-        // intel.setTargetPlayerColonies(true);
-        // intel.setForceTarget(initialTarget);
+        if (PirateRebalanceConfig.disableForceTargettingPlayer) {
+            log.info("[Pirate Rebalance] Preventing pirate base from force-targetting player");
+        } else {
+             intel.setTargetPlayerColonies(true);
+             intel.setForceTarget(initialTarget);
+        }
+
         intel.updateTarget();
         bases.add(intel);
     }
 
+    @Override
     protected void sendFirstRaid(List<MarketAPI> markets) {
-        log.info("[Pirate Rebalance] Blocking initial pirate raid");
+        if (PirateRebalanceConfig.disableScriptedFirstRaid) {
+            log.info("[Pirate Rebalance] Blocking initial pirate raid");
+            sentFirstRaid = true;
+        } else {
+            super.sendFirstRaid(markets);
+        }
+
     }
 }
