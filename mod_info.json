@@ -2,7 +2,7 @@
   "id": "pirate_rebalance_dev",
   "name": "Pirate Rebalance [dev]",
   "author": "Claimer9",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Makes pirates a bit less cracked out. See README for a full list of changes.",
   "gameVersion": "0.9.1a",
   "totalConversion": true,
