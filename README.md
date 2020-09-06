@@ -62,9 +62,9 @@ _Default:_ `true`
 
 #### "preferredPirateRange"  
 _Found In:_ `/pr_config.json`  
-_Default:_ `10000`  
+_Default:_ `9000`  
 
->In the vanilla game, pirate bases have an infinite operational range. They prefer targets within 10 light-years (ly), giving them full weight when choosing a target. Likelyhood of selection decreases linearly from there out to 19ly where chances are 10% that of preferred targets. All targets beyond this point remain at 10% weighting. This is why you'll often see pirate raid indicators on the map stretch massive distances across the sector. Use this value in conjuction with `restrictPirateRange` to determine the effecive operational range of pirate bases.
+>In the vanilla game, pirate bases have an infinite operational range. They prefer targets within 10 light-years (ly), giving them full weight when choosing a target. Likelyhood of selection decreases linearly from there out to 19ly where chances are 10% that of preferred targets. All targets beyond this point remain at 10% weighting. This is why you'll often see pirate raid indicators on the map stretch massive distances across the sector. Use this value in conjuction with `restrictPirateRange` to determine the effective operational range of pirate bases.
 >
 >Note: For reference, The Core is 12ly by 18ly, and 1ly is equal to 2000 units of distance.
 

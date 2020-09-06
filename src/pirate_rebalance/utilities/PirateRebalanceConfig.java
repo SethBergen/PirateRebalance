@@ -13,7 +13,7 @@ public class PirateRebalanceConfig {
     public static boolean adaptivePirateBaseTierScaling = true;
 
     public static int newPirateBaseInactivityMonths = 12;
-    public static double preferredPirateRange = 10000f;
+    public static double preferredPirateRange = 9000f;
 
     static {
         loadSettings();

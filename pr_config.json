@@ -2,7 +2,7 @@
   "disableScriptedFirstRaid": true,
   "disableForceTargettingPlayer": true,
   "newPirateBaseInactivityMonths": 12,
-  "preferredPirateRange": 10000,
+  "preferredPirateRange": 9000,
   "restrictPirateRange": true,
   "adaptivePirateBaseTierScaling": true
 }
